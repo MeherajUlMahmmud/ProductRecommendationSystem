@@ -1,11 +1,10 @@
 import os
 
 from dotenv import load_dotenv
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework.exceptions import (
     AuthenticationFailed,
 )
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_201_CREATED,
@@ -170,7 +169,6 @@ def login_view(request):
 
 
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])
 def logout_view(request):
     res = Response({"message": "Logout successful"})
     res.delete_cookie(key="x-auth-token")

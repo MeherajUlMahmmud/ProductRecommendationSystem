@@ -22,6 +22,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # apps
     "user_control",
+    "weather_control",
     # Third-Party Apps
     "rest_framework",
     "corsheaders",

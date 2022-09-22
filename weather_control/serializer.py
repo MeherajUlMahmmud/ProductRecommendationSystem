@@ -15,4 +15,4 @@ class WeatherSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WeatherModel
-        fields = ("id", "weather_type", "min_temp", "max_temp", "is_active", "is_deleted", "created_at", "updated_at")
+        fields = '__all__'

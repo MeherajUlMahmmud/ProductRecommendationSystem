@@ -65,7 +65,7 @@ def update_weather_type(request, pk):
             {"error": "Weather type does not exists"}, status=HTTP_400_BAD_REQUEST
         )
 
-    weather = WeatherModel.objects.filter(id=pk)
+    weather = WeatherModel.objects.get(id=pk)
     weather.weather_type = weather_type
     weather.min_temp = min_temp
     weather.max_temp = max_temp
@@ -85,7 +85,7 @@ def delete_weather_type(request, pk):
             {"error": "Weather type does not exists"}, status=HTTP_400_BAD_REQUEST
         )
 
-    weather = WeatherModel.objects.filter(id=pk)
+    weather = WeatherModel.objects.get(id=pk)
     weather.is_deleted = True
     weather.save()
 
@@ -119,7 +119,7 @@ def activate_weather_type(request, pk):
             {"error": "Weather type does not exists"}, status=HTTP_400_BAD_REQUEST
         )
 
-    weather = WeatherModel.objects.filter(id=pk)
+    weather = WeatherModel.objects.get(id=pk)
     weather.is_active = True
     weather.save()
 
@@ -137,7 +137,7 @@ def deactivate_weather_type(request, pk):
             {"error": "Weather type does not exists"}, status=HTTP_400_BAD_REQUEST
         )
 
-    weather = WeatherModel.objects.filter(id=pk)
+    weather = WeatherModel.objects.get(id=pk)
     weather.is_active = False
     weather.save()
 

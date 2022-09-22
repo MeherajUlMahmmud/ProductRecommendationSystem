@@ -65,9 +65,11 @@ def update_weather_type(request, pk):
             {"error": "Weather type does not exists"}, status=HTTP_400_BAD_REQUEST
         )
 
-    WeatherModel.objects.filter(id=pk).update(
-        weather_type=weather_type, min_temp=min_temp, max_temp=max_temp
-    )
+    weather = WeatherModel.objects.filter(id=pk)
+    weather.weather_type = weather_type
+    weather.min_temp = min_temp
+    weather.max_temp = max_temp
+    weather.save()
 
     return Response(
         {"message": "Weather type updated successfully"},
@@ -83,13 +85,46 @@ def delete_weather_type(request, pk):
             {"error": "Weather type does not exists"}, status=HTTP_400_BAD_REQUEST
         )
 
-    WeatherModel.objects.filter(id=pk).update(
-        is_active=False,
-        is_deleted=True
-    )
+    weather = WeatherModel.objects.filter(id=pk)
+    weather.is_deleted = True
+    weather.save()
 
     return Response(
         {"message": "Weather type deleted successfully"},
+        status=HTTP_200_OK,
+    )
+
+
+@api_view(["PATCH"])
+@admin_only()
+def restore_weather_type(request, pk):
+    if not WeatherModel.objects.filter(id=pk).exists():
+        return Response({"error": "Weather type does not exist"}, status=HTTP_400_BAD_REQUEST)
+
+    weather = WeatherModel.objects.get(id=pk)
+    weather.is_deleted = False
+    weather.save()
+
+    return Response(
+        {"message": "Weather type restored successfully"},
+        status=HTTP_200_OK
+    )
+
+
+@api_view(["PATCH"])
+@admin_only()
+def activate_weather_type(request, pk):
+    if not WeatherModel.objects.filter(id=pk).exists():
+        return Response(
+            {"error": "Weather type does not exists"}, status=HTTP_400_BAD_REQUEST
+        )
+
+    weather = WeatherModel.objects.filter(id=pk)
+    weather.is_active = True
+    weather.save()
+
+    return Response(
+        {"message": "Weather type activated successfully"},
         status=HTTP_200_OK,
     )
 
@@ -102,30 +137,12 @@ def deactivate_weather_type(request, pk):
             {"error": "Weather type does not exists"}, status=HTTP_400_BAD_REQUEST
         )
 
-    WeatherModel.objects.filter(id=pk).update(
-        is_active=False,
-    )
+    weather = WeatherModel.objects.filter(id=pk)
+    weather.is_active = False
+    weather.save()
 
     return Response(
         {"message": "Weather type deactivated successfully"},
-        status=HTTP_200_OK,
-    )
-
-
-@api_view(["PATCH"])
-@admin_only()
-def activate_weather_type(request, pk):
-    if not WeatherModel.objects.filter(id=pk).exists():
-        return Response(
-            {"error": "Weather type does not exists"}, status=HTTP_400_BAD_REQUEST
-        )
-
-    WeatherModel.objects.filter(id=pk).update(
-        is_active=True,
-    )
-
-    return Response(
-        {"message": "Weather type activated successfully"},
         status=HTTP_200_OK,
     )
 
@@ -134,9 +151,7 @@ def activate_weather_type(request, pk):
 @admin_only()
 def get_all_weather_types(request):
     weathers = WeatherModel.objects.all()
-
     serializer = WeatherSerializer(weathers, many=True)
-
     return Response(serializer.data, status=HTTP_200_OK)
 
 
@@ -144,9 +159,7 @@ def get_all_weather_types(request):
 @admin_only()
 def get_all_active_weather_types(request):
     weathers = WeatherModel.objects.filter(is_active=True, is_deleted=False)
-
     serializer = WeatherSerializer(weathers, many=True)
-
     return Response(serializer.data, status=HTTP_200_OK)
 
 
@@ -161,5 +174,4 @@ def get_weather_type_by_id(request, pk):
         )
 
     serializer = WeatherSerializer(weather)
-
     return Response(serializer.data, status=HTTP_200_OK)

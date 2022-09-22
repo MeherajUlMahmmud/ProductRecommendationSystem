@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     # apps
     "user_control",
     "weather_control",
+    "product_control",
     # Third-Party Apps
     "rest_framework",
     "corsheaders",

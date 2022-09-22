@@ -5,7 +5,6 @@ from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_2
 from product_control.models import ProductTypeModel
 from product_control.serializer import ProductTypeSerializer
 from user_control.decorators import admin_only
-from user_control.utils import verify_token
 
 
 @api_view(["POST"])
@@ -27,7 +26,7 @@ def create_new_product_type(request):
     product.save()
 
     return Response(
-        {"message": "Product type created successfully"},
+        {"message": "Product Type created successfully"},
         status=HTTP_201_CREATED,
     )
 
@@ -53,7 +52,7 @@ def update_product_type(request, pk):
     product.save()
 
     return Response(
-        {"message": "Product type updated successfully"},
+        {"message": "Product Type updated successfully"},
         status=HTTP_201_CREATED,
     )
 
@@ -65,11 +64,28 @@ def delete_product_type(request, pk):
         return Response({"error": "Product Type does not exist"}, status=HTTP_400_BAD_REQUEST)
 
     product = ProductTypeModel.objects.get(id=pk)
-    product.delete()
+    product.is_deleted = True
+    product.save()
 
     return Response(
-        {"message": "Product type deleted successfully"},
+        {"message": "Product Type deleted successfully"},
         status=HTTP_201_CREATED,
+    )
+
+
+@api_view(["PATCH"])
+@admin_only()
+def restore_product_type(request, pk):
+    if not ProductTypeModel.objects.filter(id=pk).exists():
+        return Response({"error": "Product Type does not exist"}, status=HTTP_400_BAD_REQUEST)
+
+    product = ProductTypeModel.objects.get(id=pk)
+    product.is_deleted = False
+    product.save()
+
+    return Response(
+        {"message": "Product Type restored successfully"},
+        status=HTTP_200_OK,
     )
 
 
@@ -84,8 +100,8 @@ def activate_product_type(request, pk):
     product.save()
 
     return Response(
-        {"message": "Product type activated successfully"},
-        status=HTTP_201_CREATED,
+        {"message": "Product Type activated successfully"},
+        status=HTTP_200_OK,
     )
 
 
@@ -100,8 +116,8 @@ def deactivate_product_type(request, pk):
     product.save()
 
     return Response(
-        {"message": "Product type deactivated successfully"},
-        status=HTTP_201_CREATED,
+        {"message": "Product Type deactivated successfully"},
+        status=HTTP_200_OK,
     )
 
 
@@ -124,9 +140,12 @@ def get_all_active_product_types(request):
 @api_view(["GET"])
 @admin_only()
 def get_product_type(request, pk):
-    if not ProductTypeModel.objects.filter(id=pk).exists():
-        return Response({"error": "Product Type does not exist"}, status=HTTP_400_BAD_REQUEST)
+    try:
+        product = ProductTypeModel.objects.get(id=pk, is_active=True, is_deleted=False)
+    except ProductTypeModel.DoesNotExist:
+        return Response(
+            {"error": "Product Type does not exists"}, status=HTTP_400_BAD_REQUEST
+        )
 
-    product = ProductTypeModel.objects.get(id=pk)
     serializer = ProductTypeSerializer(product)
     return Response(serializer.data, status=HTTP_200_OK)

@@ -2,11 +2,13 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 
+from user_control.decorators import admin_only
 from weather_control.models import WeatherModel
 from weather_control.serializer import WeatherSerializer
 
 
 @api_view(["POST"])
+@admin_only()
 def create_new_weather_type(request):
     print(request.data)
     data = request.data
@@ -38,6 +40,7 @@ def create_new_weather_type(request):
 
 
 @api_view(["PATCH"])
+@admin_only()
 def update_weather_type(request, pk):
     print(request.data)
     data = request.data
@@ -73,6 +76,7 @@ def update_weather_type(request, pk):
 
 
 @api_view(["DELETE"])
+@admin_only()
 def delete_weather_type(request, pk):
     if not WeatherModel.objects.filter(id=pk).exists():
         return Response(
@@ -91,6 +95,7 @@ def delete_weather_type(request, pk):
 
 
 @api_view(["PATCH"])
+@admin_only()
 def deactivate_weather_type(request, pk):
     if not WeatherModel.objects.filter(id=pk).exists():
         return Response(
@@ -108,6 +113,7 @@ def deactivate_weather_type(request, pk):
 
 
 @api_view(["PATCH"])
+@admin_only()
 def activate_weather_type(request, pk):
     if not WeatherModel.objects.filter(id=pk).exists():
         return Response(
@@ -125,6 +131,7 @@ def activate_weather_type(request, pk):
 
 
 @api_view(["GET"])
+@admin_only()
 def get_all_weather_types(request):
     weathers = WeatherModel.objects.all()
 
@@ -134,6 +141,7 @@ def get_all_weather_types(request):
 
 
 @api_view(["GET"])
+@admin_only()
 def get_all_active_weather_types(request):
     weathers = WeatherModel.objects.filter(is_active=True, is_deleted=False)
 
@@ -143,6 +151,7 @@ def get_all_active_weather_types(request):
 
 
 @api_view(["GET"])
+@admin_only()
 def get_weather_type_by_id(request, pk):
     try:
         weather = WeatherModel.objects.get(id=pk, is_active=True, is_deleted=False)

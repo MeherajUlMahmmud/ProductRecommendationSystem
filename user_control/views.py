@@ -41,7 +41,7 @@ def customer_signup_view(request):
 
     if UserModel.objects.filter(email=email).exists():
         return Response(
-            {"error": "Phone already exists"}, status=HTTP_400_BAD_REQUEST
+            {"error": "Email address already exists"}, status=HTTP_400_BAD_REQUEST
         )
 
     user = UserModel.objects.create_customer(
@@ -78,7 +78,7 @@ def vendor_signup_view(request):
 
     if UserModel.objects.filter(email=email).exists():
         return Response(
-            {"error": "Phone number already exists"}, status=HTTP_400_BAD_REQUEST
+            {"error": "Email address already exists"}, status=HTTP_400_BAD_REQUEST
         )
 
     user = UserModel.objects.create_vendor(
@@ -122,7 +122,7 @@ def admin_signup_view(request):
 
     if UserModel.objects.filter(email=email).exists():
         return Response(
-            {"error": "Phone already exists"}, status=HTTP_400_BAD_REQUEST
+            {"error": "Email address already exists"}, status=HTTP_400_BAD_REQUEST
         )
 
     user = UserModel.objects.create_admin(

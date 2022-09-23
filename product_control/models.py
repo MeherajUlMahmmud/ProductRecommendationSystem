@@ -1,5 +1,7 @@
 from django.db import models
 
+from user_control.models import UserModel
+
 
 class ProductTypeModel(models.Model):
     product_type = models.CharField(max_length=50)
@@ -17,6 +19,7 @@ class ProductTypeModel(models.Model):
 
 
 class ProductModel(models.Model):
+    vendor = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     product_type = models.ForeignKey(ProductTypeModel, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=255)
     product_description = models.TextField(null=True, blank=True)

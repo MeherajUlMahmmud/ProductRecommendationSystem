@@ -18,7 +18,7 @@ class ProductTypeModel(models.Model):
 
 class ProductModel(models.Model):
     product_type = models.ForeignKey(ProductTypeModel, on_delete=models.CASCADE)
-    product_name = models.CharField(max_length=50)
+    product_name = models.CharField(max_length=255)
     product_description = models.TextField(null=True, blank=True)
     available_quantity = models.IntegerField(default=0)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)

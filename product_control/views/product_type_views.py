@@ -130,7 +130,6 @@ def get_all_product_types(request):
 
 
 @api_view(["GET"])
-@admin_only()
 def get_all_active_product_types(request):
     products = ProductTypeModel.objects.filter(is_active=True)
     serializer = ProductTypeSerializer(products, many=True)
@@ -138,7 +137,6 @@ def get_all_active_product_types(request):
 
 
 @api_view(["GET"])
-@admin_only()
 def get_product_type(request, pk):
     try:
         product = ProductTypeModel.objects.get(id=pk, is_active=True, is_deleted=False)

@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_200_OK
 
 from product_control.models import ProductTypeModel
-from product_control.serializer import ProductTypeSerializer
+from product_control.serializer import ProductTypeAdminSerializer, ProductTypeUserSerializer
 from user_control.decorators import admin_only
 
 
@@ -125,14 +125,14 @@ def deactivate_product_type(request, pk):
 @admin_only()
 def get_all_product_types(request):
     products = ProductTypeModel.objects.all()
-    serializer = ProductTypeSerializer(products, many=True)
+    serializer = ProductTypeAdminSerializer(products, many=True)
     return Response(serializer.data, status=HTTP_200_OK)
 
 
 @api_view(["GET"])
 def get_all_active_product_types(request):
     products = ProductTypeModel.objects.filter(is_active=True)
-    serializer = ProductTypeSerializer(products, many=True)
+    serializer = ProductTypeUserSerializer(products, many=True)
     return Response(serializer.data, status=HTTP_200_OK)
 
 

@@ -7,15 +7,17 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_200_OK
 
 from product_control.models import ProductModel, ProductTypeModel
-from product_control.serializer import ProductSerializer
-from user_control.decorators import admin_only
+from product_control.serializer import ProductAdminSerializer, ProductUserSerializer
+from user_control.decorators import admin_only, vendor_only
+from user_control.models import UserModel
+from user_control.utils import verify_token
 from weather_control.models import WeatherModel
 
 load_dotenv()
 
 
 @api_view(["POST"])
-@admin_only()
+@vendor_only()
 def create_new_product(request):
     print(request.data)
     data = request.data
@@ -52,12 +54,18 @@ def create_new_product(request):
     if unit_price < 0:
         return Response({"error": "Unit Price must be greater than 0"}, status=HTTP_400_BAD_REQUEST)
 
+    token = request.COOKIES.get("x-auth-token")
+
+    user_id = verify_token(token)
+    user = UserModel.objects.get(id=user_id)
+
     try:
         product_type = ProductTypeModel.objects.get(id=product_type_id)
     except ProductTypeModel.DoesNotExist:
         return Response({"error": "Product Type does not exist"}, status=HTTP_400_BAD_REQUEST)
 
     product = ProductModel.objects.create(
+        vendor=user,
         product_type=product_type,
         product_name=product_name,
         product_description=product_description,
@@ -73,7 +81,7 @@ def create_new_product(request):
 
 
 @api_view(["PATCH"])
-@admin_only()
+@vendor_only()
 def update_product(request, pk):
     print(request.data)
     data = request.data
@@ -124,7 +132,7 @@ def update_product(request, pk):
 
 
 @api_view(["DELETE"])
-@admin_only()
+@vendor_only()
 def delete_product(request, pk):
     if not ProductModel.objects.filter(id=pk).exists():
         return Response({"error": "Product does not exist"}, status=HTTP_400_BAD_REQUEST)
@@ -140,7 +148,7 @@ def delete_product(request, pk):
 
 
 @api_view(["PATCH"])
-@admin_only()
+@vendor_only()
 def restore_product(request, pk):
     if not ProductModel.objects.filter(id=pk).exists():
         return Response({"error": "Product does not exist"}, status=HTTP_400_BAD_REQUEST)
@@ -156,7 +164,7 @@ def restore_product(request, pk):
 
 
 @api_view(["PATCH"])
-@admin_only()
+@vendor_only()
 def activate_product(request, pk):
     if not ProductModel.objects.filter(id=pk).exists():
         return Response({"error": "Product does not exist"}, status=HTTP_400_BAD_REQUEST)
@@ -172,7 +180,7 @@ def activate_product(request, pk):
 
 
 @api_view(["PATCH"])
-@admin_only()
+@vendor_only()
 def deactivate_product(request, pk):
     if not ProductModel.objects.filter(id=pk).exists():
         return Response({"error": "Product does not exist"}, status=HTTP_400_BAD_REQUEST)
@@ -191,14 +199,14 @@ def deactivate_product(request, pk):
 @admin_only()
 def get_all_products(request):
     products = ProductModel.objects.filter(is_active=True, is_deleted=False)
-    serializer = ProductSerializer(products, many=True)
+    serializer = ProductAdminSerializer(products, many=True)
     return Response(serializer.data, status=HTTP_200_OK)
 
 
 @api_view(["GET"])
 def get_all_active_products(request):
     products = ProductModel.objects.filter(is_active=True, is_deleted=False)
-    serializer = ProductSerializer(products, many=True)
+    serializer = ProductUserSerializer(products, many=True)
     return Response(serializer.data, status=HTTP_200_OK)
 
 
@@ -206,14 +214,14 @@ def get_all_active_products(request):
 def get_all_active_products_by_type(request, product_type):
     products = ProductModel.objects.filter(is_active=True, is_deleted=False,
                                            product_type__product_type__contains=product_type)
-    serializer = ProductSerializer(products, many=True)
+    serializer = ProductUserSerializer(products, many=True)
     return Response(serializer.data, status=HTTP_200_OK)
 
 
 @api_view(["GET"])
 def get_all_active_products_by_name(request, product_name):
     products = ProductModel.objects.filter(is_active=True, is_deleted=False, product_name__icontains=product_name)
-    serializer = ProductSerializer(products, many=True)
+    serializer = ProductUserSerializer(products, many=True)
     return Response(serializer.data, status=HTTP_200_OK)
 
 
@@ -223,7 +231,7 @@ def get_product_by_id(request, pk):
         return Response({"error": "Product does not exist"}, status=HTTP_400_BAD_REQUEST)
 
     product = ProductModel.objects.get(id=pk)
-    serializer = ProductSerializer(product)
+    serializer = ProductUserSerializer(product)
     return Response(serializer.data, status=HTTP_200_OK)
 
 
@@ -255,5 +263,5 @@ def get_recommended_product(request):
         return Response({"error": "Product Type could not be found"}, status=HTTP_400_BAD_REQUEST)
 
     products = ProductModel.objects.filter(is_active=True, is_deleted=False, product_type=product_type)
-    serializer = ProductSerializer(products, many=True)
+    serializer = ProductUserSerializer(products, many=True)
     return Response(serializer.data, status=HTTP_200_OK)

@@ -3,8 +3,8 @@ from django.db import models
 
 class WeatherModel(models.Model):
     weather_type = models.CharField(max_length=100)
-    min_temp = models.FloatField()
-    max_temp = models.FloatField()
+    min_temp = models.FloatField()  # Celsius
+    max_temp = models.FloatField()  # Celsius
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

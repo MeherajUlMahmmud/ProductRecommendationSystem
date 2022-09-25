@@ -76,4 +76,4 @@ python3 manage.py runserver
 ```
 
 ### 7. Download the Postman collection from the following link:
-![Postman Collection](assets/ProductRecommendationSystem.postman_collection.json)
+<a href="assets/ProductRecommendationSystem.postman_collection.json" download>Click to Download</a>

@@ -112,87 +112,115 @@ def update_product(request, pk):
     if unit_price < 0:
         return Response({"error": "Unit Price must be greater than 0"}, status=HTTP_400_BAD_REQUEST)
 
+    token = request.COOKIES.get("x-auth-token")
+
+    user_id = verify_token(token)
+    user = UserModel.objects.get(id=user_id)
+
     try:
         product_type = ProductTypeModel.objects.get(id=product_type_id)
     except ProductTypeModel.DoesNotExist:
         return Response({"error": "Product Type does not exist"}, status=HTTP_400_BAD_REQUEST)
 
-    product = ProductModel.objects.get(id=pk)
-    product.product_type = product_type
-    product.product_name = product_name
-    product.product_description = product_description
-    product.available_quantity = available_quantity
-    product.unit_price = unit_price
-    product.save()
+    try:
+        product = ProductModel.objects.get(id=pk, vendor=user)
+        product.product_type = product_type
+        product.product_name = product_name
+        product.product_description = product_description
+        product.available_quantity = available_quantity
+        product.unit_price = unit_price
+        product.save()
 
-    return Response(
-        {"message": "Product updated successfully"},
-        status=HTTP_200_OK,
-    )
+        return Response(
+            {"message": "Product updated successfully"},
+            status=HTTP_200_OK,
+        )
+    except ProductModel.DoesNotExist:
+        return Response({"error": "Product does not exist"}, status=HTTP_400_BAD_REQUEST)
 
 
 @api_view(["DELETE"])
 @vendor_only()
 def delete_product(request, pk):
-    if not ProductModel.objects.filter(id=pk).exists():
+    token = request.COOKIES.get("x-auth-token")
+
+    user_id = verify_token(token)
+    user = UserModel.objects.get(id=user_id)
+
+    try:
+        product = ProductModel.objects.get(id=pk, vendor=user)
+        product.is_deleted = True
+        product.save()
+
+        return Response(
+            {"message": "Product deleted successfully"},
+            status=HTTP_200_OK,
+        )
+    except ProductModel.DoesNotExist:
         return Response({"error": "Product does not exist"}, status=HTTP_400_BAD_REQUEST)
-
-    product = ProductModel.objects.get(id=pk)
-    product.is_deleted = True
-    product.save()
-
-    return Response(
-        {"message": "Product deleted successfully"},
-        status=HTTP_200_OK,
-    )
 
 
 @api_view(["PATCH"])
 @vendor_only()
 def restore_product(request, pk):
-    if not ProductModel.objects.filter(id=pk).exists():
+    token = request.COOKIES.get("x-auth-token")
+
+    user_id = verify_token(token)
+    user = UserModel.objects.get(id=user_id)
+
+    try:
+        product = ProductModel.objects.get(id=pk, vendor=user)
+        product.is_deleted = False
+        product.save()
+
+        return Response(
+            {"message": "Product restored successfully"},
+            status=HTTP_200_OK,
+        )
+    except ProductModel.DoesNotExist:
         return Response({"error": "Product does not exist"}, status=HTTP_400_BAD_REQUEST)
-
-    product = ProductModel.objects.get(id=pk)
-    product.is_deleted = False
-    product.save()
-
-    return Response(
-        {"message": "Product restored successfully"},
-        status=HTTP_200_OK,
-    )
 
 
 @api_view(["PATCH"])
 @vendor_only()
 def activate_product(request, pk):
-    if not ProductModel.objects.filter(id=pk).exists():
+    token = request.COOKIES.get("x-auth-token")
+
+    user_id = verify_token(token)
+    user = UserModel.objects.get(id=user_id)
+
+    try:
+        product = ProductModel.objects.get(id=pk, vendor=user)
+        product.is_active = True
+        product.save()
+
+        return Response(
+            {"message": "Product activated successfully"},
+            status=HTTP_200_OK,
+        )
+    except ProductModel.DoesNotExist:
         return Response({"error": "Product does not exist"}, status=HTTP_400_BAD_REQUEST)
-
-    product = ProductModel.objects.get(id=pk)
-    product.is_active = True
-    product.save()
-
-    return Response(
-        {"message": "Product activated successfully"},
-        status=HTTP_200_OK,
-    )
 
 
 @api_view(["PATCH"])
 @vendor_only()
 def deactivate_product(request, pk):
-    if not ProductModel.objects.filter(id=pk).exists():
+    token = request.COOKIES.get("x-auth-token")
+
+    user_id = verify_token(token)
+    user = UserModel.objects.get(id=user_id)
+
+    try:
+        product = ProductModel.objects.get(id=pk, vendor=user)
+        product.is_active = False
+        product.save()
+
+        return Response(
+            {"message": "Product deactivated successfully"},
+            status=HTTP_200_OK,
+        )
+    except ProductModel.DoesNotExist:
         return Response({"error": "Product does not exist"}, status=HTTP_400_BAD_REQUEST)
-
-    product = ProductModel.objects.get(id=pk)
-    product.is_active = False
-    product.save()
-
-    return Response(
-        {"message": "Product deactivated successfully"},
-        status=HTTP_200_OK,
-    )
 
 
 @api_view(["GET"])

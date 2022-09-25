@@ -1,0 +1,828 @@
+{
+	"info": {
+		"_postman_id": "c23186c0-b2cf-4b15-a8d2-eee359f8f37c",
+		"name": "Product Recommendation System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22794713"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Meheraj\",\r\n    \"email\": \"meheraj@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/signup",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Meheraj Vendor\",\r\n    \"email\": \"vendor@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/vendor/signup",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"vendor",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Admin\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"authorization_code\": \"1234567890\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/admin/signup",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"admin",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/auth/logout",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Weather",
+			"item": [
+				{
+					"name": "Get All Weather Types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/weather/list",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"weather",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Active Weather Type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/weather/list/active",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"weather",
+								"list",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Weather Type",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"weather_type\": \"Normal\",\r\n    \"min_temp\": 23,\r\n    \"max_temp\": 27\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/weather/create",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"weather",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Weather Type",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"weather_type\": \"Hot\",\r\n    \"min_temp\": 28,\r\n    \"max_temp\": 40\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/weather/update/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"weather",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Weather Type",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/weather/delete/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"weather",
+								"delete",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restore Weather Type",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/weather/restore/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"weather",
+								"restore",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate Weather Type",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/weather/deactivate/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"weather",
+								"deactivate",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Weather Type",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/weather/activate/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"weather",
+								"activate",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Weather Type by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/weather/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"weather",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Product Type",
+					"item": [
+						{
+							"name": "Get All Product Types",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/type/list",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"type",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Active Product Type",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/type/list/active",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"type",
+										"list",
+										"active"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create New Product Type",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"product_type\": \"Normal\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/product/type/create",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"type",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product Type",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"product_type\": \"Hot\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/product/type/update/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"type",
+										"update",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product Type",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/type/delete/2",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"type",
+										"delete",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Restore Product Type",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/type/restore/2",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"type",
+										"restore",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deactivate Product Type",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/type/deactivate/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"type",
+										"deactivate",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Activate Product Type",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/type/activate/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"type",
+										"activate",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Product Type by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/type/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"type",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Products",
+					"item": [
+						{
+							"name": "Get All Product",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/list",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"list"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Active Products",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/list/active",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"list",
+										"active"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Active Products by Product Type",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/list/active/type/cold",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"list",
+										"active",
+										"type",
+										"cold"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Active Product by Product Name",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/list/active/name/swea",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"list",
+										"active",
+										"name",
+										"swea"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Recommended Products",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/list/recommended",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"list",
+										"recommended"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create New Product",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"product_type_id\": 2,\r\n    \"product_name\": \"T-Shirt\",\r\n    \"product_description\": \"T-Shirt for men\",\r\n    \"available_quantity\": 10,\r\n    \"unit_price\": 350\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/product/create",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"product_type_id\": 3,\r\n    \"product_name\": \"Sweater\",\r\n    \"product_description\": \"Sweater for men\",\r\n    \"available_quantity\": 7,\r\n    \"unit_price\": 550\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/product/update/3",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"update",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/delete/2",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"delete",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Restore Product",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/type/restore/2",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"type",
+										"restore",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deactivate Product",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/deactivate/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"deactivate",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Activate Product",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/activate/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"activate",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Product by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/product/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"product",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": " http://127.0.0.1:8000/api",
+			"type": "string"
+		}
+	]
+}

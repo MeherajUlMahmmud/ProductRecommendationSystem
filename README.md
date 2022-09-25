@@ -1,7 +1,7 @@
 # Product Recommendation System
 
 ## Database Schema
-![Home](assets/db_schema.png)
+![DB Schema](assets/db_schema.png)
 
 ## How to run:
 ### 1. Clone project
@@ -74,3 +74,6 @@ py manage.py runserver
 ```
 python3 manage.py runserver
 ```
+
+### 7. Download the Postman collection from the following link:
+![Postman Collection](assets/ProductRecommendationSystem.postman_collection.json)

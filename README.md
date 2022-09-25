@@ -76,4 +76,50 @@ python3 manage.py runserver
 ```
 
 ### 7. Download the Postman collection from the following link:
-<a href="assets/ProductRecommendationSystem.postman_collection.json" download>Click to Download</a>
+<a href="https://drive.google.com/file/d/1i7G0sgvNnIylHDln0fmfXFdrs1XB1His/view?usp=sharing" target="_blank">Download Collection as JSON</a><br/>
+<a href="https://documenter.getpostman.com/view/22794713/2s83S2DuQV" target="_blank">View and Run Public Collection</a>
+
+## How to run tests:
+### 1. Run the following command tu run all the tests:
+> For Windows
+```
+py manage.py test
+```
+
+> For Linux or Mac
+```
+python3 manage.py test
+```
+
+### 2. Run the following command to run test for a specific app:
+> For Windows
+```
+py manage.py test <app_name>
+```
+```
+py manage.py test user_control
+```
+```
+py manage.py test weather_control
+```
+```
+py manage.py test product_control
+```
+
+> For Linux or Mac
+```
+python3 manage.py test <app_name>
+```
+```
+python3 manage.py test user_control
+```
+```
+python3 manage.py test weather_control
+```
+```
+python3 manage.py test product_control
+```
+
+
+# Thank you!
+

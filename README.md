@@ -1,5 +1,8 @@
 # Product Recommendation System
 
+## Database Schema
+![Home](assets/db_schema.png)
+
 ## How to run:
 ### 1. Clone project
 > Make sure you have already installed python3 and git.
